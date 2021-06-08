@@ -191,9 +191,9 @@ class Airtable
      * 
      * @return Record[]
      */
-    public function findRecords(string $table, array $criteria): array
+    public function findRecords(string $table, array $criteria = [], ?int $maxRecords = 100): array
     {
-        $url = $this->getEndpoint($table);
+        $url = $this->getEndpoint($table, null, $maxRecords);
 
         if (count($criteria) > 0) {
             $formulas = [];
@@ -222,7 +222,7 @@ class Airtable
         }, $data['records']);
     }
 
-    protected function getEndpoint(string $table, ?string $id = null): string
+    protected function getEndpoint(string $table, ?string $id = null, ?int $maxRecords = 100): string
     {
         if ($id) {
             $urlPattern = 'https://api.airtable.com/v0/%BASE%/%TABLE%/%ID%';
@@ -236,10 +236,12 @@ class Airtable
 
         $urlPattern = 'https://api.airtable.com/v0/%BASE%/%TABLE%';
 
-        return strtr($urlPattern, [
+        $url = strtr($urlPattern, [
             '%BASE%'  => $this->base,
             '%TABLE%' => rawurlencode($table),
         ]);
+        
+        return $url . '?maxRecords=' . $maxRecords;
     }
 
     protected function guardResponse(string $table, Response $response): void
