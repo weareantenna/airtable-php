@@ -2,6 +2,9 @@
 
 Basic SDK to deal with airtable records.
 
+Shout out to https://github.com/armetiz/airtable-php.
+The only real addition is the maxRecords for findRecords method.
+
 ## Installation
 
 Tell composer to require this bundle by running:
@@ -33,7 +36,7 @@ $records = $airtable->findRecords($table);
 * Airtable::flushRecords(string $table)
 * Airtable::deleteRecord(string $table, array $criteria = [])
 * Airtable::findRecord(string $table, array $criteria = [])
-* Airtable::findRecords(string $table, array $criteria = [])
+* Airtable::findRecords(string $table, array $criteria = [], $maxRecords = 100)
 
 ## Example
 
